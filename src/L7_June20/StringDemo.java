@@ -56,7 +56,7 @@ public class StringDemo {
 		str = str.replace("el", "abc");
 
 		System.out.println(str);
-		
+
 		appendString();
 	}
 
@@ -65,10 +65,12 @@ public class StringDemo {
 		long start = System.currentTimeMillis();
 		int n = 100000;
 
-		String str = "";
+		// String str = "";
+		StringBuilder sb = new StringBuilder();
 
 		for (int i = 1; i <= n; i++) {
-			str += i;
+			// str += i;
+			sb.append(i);
 		}
 
 		long end = System.currentTimeMillis();
