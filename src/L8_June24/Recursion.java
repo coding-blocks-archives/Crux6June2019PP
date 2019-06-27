@@ -19,13 +19,16 @@ public class Recursion {
 
 		// System.out.println(fibonacci(10));
 
-		int[] arr = { 10, 20, 30, 40, 50, 30 };
+		int[] arr = { 10, 20, 30, 40, 50, 30, 30 };
 		// displayReverse(arr, 0);
 		// System.out.println(max(arr, 0));
-		System.out.println(findFirstIndex(arr, 0, 30));
-		System.out.println(findLastIndex(arr, 0, 30));
+		// System.out.println(findFirstIndex(arr, 0, 30));
+		// System.out.println(findLastIndex(arr, 0, 30));
 
-		System.out.println("byee main");
+		int[] ans = findAllIndex(arr, 0, 30, 0);
+		for (int val : ans) {
+			System.out.println(val);
+		}
 
 	}
 
@@ -172,7 +175,23 @@ public class Recursion {
 
 	}
 
-	public static int[] findAllIndex(int[] arr, int vidx, int item) {
+	public static int[] findAllIndex(int[] arr, int vidx, int item, int count) {
+
+		if (vidx == arr.length) {
+			int[] rr = new int[count];
+			return rr;
+		}
+
+		int[] rr;
+
+		if (arr[vidx] == item) {
+			rr = findAllIndex(arr, vidx + 1, item, count + 1);
+			rr[count] = vidx;
+		} else {
+			rr = findAllIndex(arr, vidx + 1, item, count);
+		}
+
+		return rr;
 
 	}
 
