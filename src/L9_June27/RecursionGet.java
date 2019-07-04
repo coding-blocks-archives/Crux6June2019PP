@@ -17,7 +17,9 @@ public class RecursionGet {
 		// System.out.println(getKPC("145"));
 		// System.out.println(coinToss(3));
 		// System.out.println(permutation("abc"));
-		System.out.println(mazePath(0, 0, 2, 2));
+		// System.out.println(mazePathDiag(0, 0, 2, 2));
+
+		System.out.println(boardPath(0, 10));
 	}
 
 	public static ArrayList<String> getSS(String str) {
@@ -186,28 +188,101 @@ public class RecursionGet {
 
 	public static ArrayList<String> mazePath(int cr, int cc, int er, int ec) {
 
+		// +ve base case
 		if (cr == er && cc == ec) {
 			ArrayList<String> br = new ArrayList<>();
 			br.add("");
 			return br;
 		}
 
-		ArrayList<String> mr = new ArrayList<>();
-
-		if (cc + 1 <= ec) {
-			ArrayList<String> rrh = mazePath(cr, cc + 1, er, ec); // H
-			for (String val : rrh) {
-				mr.add("H" + val);
-			}
+		// -ve base case
+		if (cr > er || cc > ec) {
+			ArrayList<String> br = new ArrayList<>();
+			return br;
 		}
 
-		if (cr + 1 <= er) {
-			ArrayList<String> rrv = mazePath(cr + 1, cc, er, ec); // V
-			for (String val : rrv) {
-				mr.add("V" + val);
+		ArrayList<String> mr = new ArrayList<>();
+
+		// if (cc + 1 <= ec) {
+		ArrayList<String> rrh = mazePath(cr, cc + 1, er, ec); // H
+		for (String val : rrh) {
+			mr.add("H" + val);
+		}
+		// }
+
+		// if (cr + 1 <= er) {
+		ArrayList<String> rrv = mazePath(cr + 1, cc, er, ec); // V
+		for (String val : rrv) {
+			mr.add("V" + val);
+		}
+		// }
+
+		return mr;
+	}
+
+	public static ArrayList<String> mazePathDiag(int cr, int cc, int er, int ec) {
+
+		// +ve base case
+		if (cr == er && cc == ec) {
+			ArrayList<String> br = new ArrayList<>();
+			br.add("\n");
+			return br;
+		}
+
+		// -ve base case
+		if (cr > er || cc > ec) {
+			ArrayList<String> br = new ArrayList<>();
+			return br;
+		}
+
+		ArrayList<String> mr = new ArrayList<>();
+
+		ArrayList<String> rrh = mazePathDiag(cr, cc + 1, er, ec); // H
+		for (String val : rrh) {
+			mr.add("H" + val);
+		}
+
+		ArrayList<String> rrv = mazePathDiag(cr + 1, cc, er, ec); // V
+		for (String val : rrv) {
+			mr.add("V" + val);
+		}
+
+		ArrayList<String> rrd = mazePathDiag(cr + 1, cc + 1, er, ec); // D
+		for (String val : rrd) {
+			mr.add("D" + val);
+		}
+
+		return mr;
+	}
+
+	public static ArrayList<String> boardPath(int curr, int end) {
+
+		if (curr == end) {
+			ArrayList<String> br = new ArrayList<>();
+			br.add("\n");
+			return br;
+		}
+
+		if (curr > end) {
+			ArrayList<String> br = new ArrayList<>();
+			return br;
+		}
+
+		ArrayList<String> mr = new ArrayList<>();
+
+		for (int dice = 1; dice <= 6; dice++) {
+			ArrayList<String> rr = boardPath(curr + dice, end);
+
+			for (String val : rr) {
+				mr.add(dice + val);
 			}
 		}
 
 		return mr;
 	}
+
 }
+
+
+
+
