@@ -1,5 +1,7 @@
 package L11_July4;
 
+import java.util.Scanner;
+
 /**
  * @author Garima Chhikara
  * @email garima.chhikara@codingblocks.com
@@ -21,8 +23,38 @@ public class Backtracking {
 
 		// queenCombination2D(new boolean[4][4], 0, 0, 0, 4, "") ;
 
-		int[][] maze = { { 0, 1, 0, 0, }, { 0, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 } };
-		blockedMaze(maze, 0, 0, "", new boolean[maze.length][maze[0].length]);
+		// int[][] maze = { { 0, 1, 0, 0, }, { 0, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1,
+		// 0 } };
+		// blockedMaze(maze, 0, 0, "", new boolean[maze.length][maze[0].length]);
+
+		// Scanner scn = new Scanner(System.in);
+		//
+		// int[][] arr = new int[9][9];
+		//
+		// for (int i = 0; i < arr.length; i++) {
+		// for (int j = 0; j < arr[0].length; j++) {
+		// arr[i][j] = scn.nextInt();
+		// }
+		//
+		// }
+		//
+		// sudoku(arr, 0, 0);
+
+		char[][] arr = { { 'A', 'B', 'C', 'E' }, { 'S', 'F', 'C', 'S' }, { 'A', 'D', 'F', 'E' } };
+		
+		boolean ans = false ;
+		String word ="SEE"  ;
+		
+		for(int i=0 ; i < arr.length ; i++) {
+			for (int j = 0; j < arr[0].length; j++) {
+				if(arr[i][j] == word.charAt(0)) {
+					ans = ans || wordSearch(arr, i, j, word, 0, new boolean[arr.length][arr[0].length]) ;
+				}
+			}
+		}
+		
+		System.out.println(ans);
+
 	}
 
 	public static void queenPermutation(boolean[] board, int qpsf, int tq, String ans) {
@@ -227,9 +259,13 @@ public class Backtracking {
 		}
 
 		for (int i = 1; i <= 9; i++) {
-			arr[row][col] = i;
-			sudoku(arr, row, col + 1);
-			arr[row][col] = 0;
+
+			if (isItSafe(arr, row, col, i)) {
+
+				arr[row][col] = i;
+				sudoku(arr, row, col + 1);
+				arr[row][col] = 0;
+			}
 
 		}
 
@@ -240,12 +276,109 @@ public class Backtracking {
 		for (int i = 0; i < arr.length; i++) {
 			for (int j = 0; j < arr[0].length; j++) {
 				System.out.print(arr[i][j] + " ");
+
+				if (j == 2 || j == 5) {
+					System.out.print("     ");
+				}
 			}
 			System.out.println();
+
+			if (i == 2 || i == 5) {
+				System.out.println();
+
+			}
 		}
+
+		System.out.println("-----------------------------");
+	}
+
+	public static boolean isItSafe(int[][] arr, int row, int col, int val) {
+
+		return isItSafeRow(arr, row, val) && isItSafeCol(arr, col, val) && isItSafeCell(arr, row, col, val);
+	}
+
+	public static boolean isItSafeRow(int[][] arr, int row, int val) {
+
+		for (int col = 0; col < arr[0].length; col++) {
+
+			if (arr[row][col] == val) {
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	public static boolean isItSafeCol(int[][] arr, int col, int val) {
+
+		for (int row = 0; row < arr.length; row++) {
+
+			if (arr[row][col] == val) {
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	public static boolean isItSafeCell(int[][] arr, int row, int col, int val) {
+
+		int sr = row - row % 3;
+		int sc = col - col % 3;
+
+		for (int r = sr; r < sr + 3; r++) {
+
+			for (int c = sc; c < sc + 3; c++) {
+				if (arr[r][c] == val) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+
+	}
+
+	public static boolean wordSearch(char[][] arr, int row, int col, String word, int idx, boolean[][] visited) {
+
+		if (idx == word.length()) {
+			return true;
+		}
+
+		if (row < 0 || row == arr.length || col < 0 || col == arr[0].length || visited[row][col]) {
+			return false;
+		}
+
+		if (arr[row][col] != word.charAt(idx)) {
+			return false;
+		}
+
+		visited[row][col] = true;
+
+		// T
+		boolean t = wordSearch(arr, row - 1, col, word, idx + 1, visited);
+		// L
+		boolean l = wordSearch(arr, row, col - 1, word, idx + 1, visited);
+		// R
+		boolean r = wordSearch(arr, row, col + 1, word, idx + 1, visited);
+		// B
+		boolean b = wordSearch(arr, row + 1, col, word, idx + 1, visited);
+
+		visited[row][col] = false;
+
+		return t || l || r || b;
+
 	}
 
 }
+
+
+
+
+
+
 
 
 
