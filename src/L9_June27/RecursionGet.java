@@ -19,7 +19,9 @@ public class RecursionGet {
 		// System.out.println(permutation("abc"));
 		// System.out.println(mazePathDiag(0, 0, 2, 2));
 
-		System.out.println(boardPath(0, 10));
+//		System.out.println(boardPath(0, 10));
+		
+		System.out.println(upperLower("A1z3"));
 	}
 
 	public static ArrayList<String> getSS(String str) {
@@ -281,8 +283,34 @@ public class RecursionGet {
 		return mr;
 	}
 
+	public static ArrayList<String> upperLower(String str) {
+
+		if (str.length() == 0) {
+			ArrayList<String> mr = new ArrayList<>();
+			mr.add("");
+			return mr;
+		}
+		
+		char ch = str.charAt(0);
+		String ros = str.substring(1);
+
+		ArrayList<String> rr = upperLower(ros);
+
+		ArrayList<String> mr = new ArrayList<>();
+
+		if (Character.isDigit(ch)) {
+
+			for (String val : rr) {
+				mr.add(ch + val);
+			}
+		} else {
+			for (String val : rr) {
+				mr.add(Character.toLowerCase(ch) + val);
+				mr.add(Character.toUpperCase(ch) + val);
+			}
+		}
+
+		return mr;
+	}
+
 }
-
-
-
-

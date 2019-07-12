@@ -24,7 +24,9 @@ public class RecursionPrint {
 		// System.out.println(mazePath(0, 0, 2, 2, ""));
 
 		// lexicoCounting(0, 1000);
-		palindromePartition("abbcbc", "");
+		// palindromePartition("abbcbc", "");
+
+		upperLower("A1bC", "");
 	}
 
 	public static void printSS(String ques, String ans) {
@@ -223,6 +225,27 @@ public class RecursionPrint {
 			if (isPalindrome(part)) {
 				palindromePartition(roq, ans + part + " ");
 			}
+
+		}
+
+	}
+
+	public static void upperLower(String ques, String ans) {
+
+		if (ques.length() == 0) {
+			System.out.println(ans);
+			return;
+		}
+
+		char ch = ques.charAt(0);
+		String roq = ques.substring(1);
+
+		if (Character.isDigit(ch)) {
+			upperLower(roq, ans + ch);
+		} else {
+
+			upperLower(roq, ans + Character.toLowerCase(ch));
+			upperLower(roq, ans + Character.toUpperCase(ch));
 
 		}
 

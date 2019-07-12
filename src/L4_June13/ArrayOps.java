@@ -16,7 +16,7 @@ public class ArrayOps {
 	public static void main(String[] args) {
 
 		// int[] arr = takeInput();
-		int[] arr = { 90, 80, 70, 60, 50 };
+		// int[] arr = { 90, 80, 70, 60, 50 };
 		// display(arr);
 		// System.out.println(linearSearch(arr, 30));
 		// System.out.println(binarySearch(arr, 30));
@@ -28,8 +28,22 @@ public class ArrayOps {
 		// subsets(arr);
 		// bubbleSort(arr);
 		// selectionSort(arr);
+		// insertionSort(arr);
+		// display(arr);
+
+		int[] arr = new int[100000];
+
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = arr.length - i;
+
+		}
+
+		long start = System.currentTimeMillis();
+		// bubbleSort(arr);
 		insertionSort(arr);
-		display(arr);
+		long end = System.currentTimeMillis();
+
+		System.out.println(end - start);
 
 	}
 
@@ -202,16 +216,24 @@ public class ArrayOps {
 	public static void bubbleSort(int[] arr) {
 
 		int n = arr.length;
+		boolean flag = true;
+
 		for (int count = 0; count <= n - 2; count++) {
 
 			for (int j = 0; j <= n - count - 2; j++) {
 
 				if (arr[j] > arr[j + 1]) {
+
+					flag = false;
+
 					int temp = arr[j];
 					arr[j] = arr[j + 1];
 					arr[j + 1] = temp;
 				}
 			}
+
+			if (flag)
+				break;
 
 		}
 
