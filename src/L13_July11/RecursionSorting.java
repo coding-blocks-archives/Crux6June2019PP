@@ -84,6 +84,8 @@ public class RecursionSorting {
 		return merged;
 	}
 
+	// Worst Case : n^2 : pivot largest, smallest
+	// Best Case : n logn : pivot median
 	public static void quickSort(int[] arr, int lo, int hi) {
 
 		if (lo >= hi) {
