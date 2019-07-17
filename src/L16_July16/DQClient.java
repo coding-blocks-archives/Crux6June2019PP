@@ -26,7 +26,42 @@ public class DQClient {
 		dq.enqueue(80);
 
 		dq.display();
+
+		System.out.println("-- Actual Reverse --");
+		dq.display();
+		// actualReverse(dq);
+		dq.display();
+
+		System.out.println("-- Display Reverse --");
+		dq.display();
+		displayReverse(dq, 0);
+		dq.display();
+	}
+
+	public static void displayReverse(DynamicQueue queue, int count) throws Exception {
+
+		if (count == queue.size()) {
+			return;
+		}
+
+		int temp = queue.dequeue();
+		queue.enqueue(temp);
+
+		displayReverse(queue, count + 1);
+
+		System.out.println(temp);
+
+	}
+
+	public static void actualReverse(DynamicQueue queue) throws Exception {
+
+		if (queue.isEmpty()) {
+			return;
+		}
+
+		int temp = queue.dequeue();
+		actualReverse(queue);
+		queue.enqueue(temp);
+
 	}
 }
-
-

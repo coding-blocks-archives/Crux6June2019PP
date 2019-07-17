@@ -32,7 +32,19 @@ public class DSClient {
 
 		System.out.println("--- NGE ---");
 		int[] arr = { 30, 20, 10, 5, 25, 15, 45, 37, 28, 42 };
-		nextGreaterElement(arr);
+		int[] ans = nextGreaterElement2(arr);
+
+		for (int i = 0; i < ans.length; i++) {
+			System.out.println(arr[i] + " -> " + ans[i]);
+		}
+
+		System.out.println("-- Stock Span --");
+		int[] stock = { 50, 35, 5, 70, 7, 3, 40, 37, 45, 7 };
+		int[] span = stockSpan(stock);
+
+		for (int i = 0; i < span.length; i++) {
+			System.out.println(span[i]);
+		}
 
 	}
 
@@ -92,6 +104,54 @@ public class DSClient {
 		while (!stack.isEmpty()) {
 			System.out.println(stack.pop() + " -> -1");
 		}
+	}
+
+	public static int[] nextGreaterElement2(int[] arr) throws Exception {
+
+		int[] ans = new int[arr.length];
+
+		DynamicStack stack = new DynamicStack();
+
+		for (int i = 0; i < arr.length; i++) {
+
+			while (!stack.isEmpty() && arr[stack.top()] < arr[i]) {
+				ans[stack.pop()] = arr[i];
+			}
+
+			stack.push(i);
+		}
+
+		while (!stack.isEmpty()) {
+			ans[stack.pop()] = -1;
+		}
+
+		return ans;
+	}
+
+	public static int[] stockSpan(int[] arr) throws Exception {
+
+		int[] ans = new int[arr.length];
+
+		DynamicStack stack = new DynamicStack();
+
+		for (int i = 0; i < arr.length; i++) {
+
+			while (!stack.isEmpty() && arr[i] > arr[stack.top()]) {
+				stack.pop();
+			}
+
+			if (stack.isEmpty()) {
+				ans[i] = i + 1;
+			} else {
+				ans[i] = i - stack.top();
+			}
+
+			stack.push(i);
+
+		}
+
+		return ans;
+
 	}
 
 }
