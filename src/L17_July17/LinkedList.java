@@ -12,6 +12,15 @@ public class LinkedList {
 	private class Node {
 		int data;
 		Node next;
+
+		public Node(int data) {
+			this.data = data;
+		}
+
+		public Node() {
+
+		}
+
 	}
 
 	private Node head;
@@ -384,6 +393,242 @@ public class LinkedList {
 		}
 
 		mover.left = mover.left.next;
+	}
+
+	public void fold() {
+		// fold(head, head, 0);
+		HeapMover mover = new HeapMover();
+		mover.left = head;
+
+		foldHeap(mover, head, 0);
+	}
+
+	private Node fold(Node left, Node right, int count) {
+
+		if (right == null) {
+			return left;
+		}
+
+		left = fold(left, right.next, count + 1);
+
+		if (count > size / 2) {
+			Node ahead = left.next;
+
+			// links
+			left.next = right;
+			right.next = ahead;
+
+			return ahead;
+		}
+
+		if (count == size / 2) {
+			tail = right;
+			tail.next = null;
+		}
+
+		return null;
+
+	}
+
+	private void foldHeap(HeapMover mover, Node right, int count) {
+
+		if (right == null) {
+			return;
+		}
+
+		foldHeap(mover, right.next, count + 1);
+
+		if (count > size / 2) {
+			Node ahead = mover.left.next;
+
+			// links
+			mover.left.next = right;
+			right.next = ahead;
+
+			mover.left = ahead;
+		}
+
+		if (count == size / 2) {
+			tail = right;
+			tail.next = null;
+		}
+
+	}
+
+	public int mid() {
+
+		Node slow = head;
+		Node fast = head;
+
+		// while (fast != null && fast.next != null ) {
+		while (fast.next != null && fast.next.next != null) {
+			slow = slow.next;
+			fast = fast.next.next;
+		}
+
+		return slow.data;
+
+	}
+
+	public int kthFromLast(int k) {
+
+		Node slow = head;
+		Node fast = head;
+
+		for (int i = 1; i <= k; i++) {
+			fast = fast.next;
+		}
+
+		while (fast != null) {
+			slow = slow.next;
+			fast = fast.next;
+		}
+
+		return slow.data;
+	}
+
+	public int linkedListIntersection() {
+
+		Node a1 = new Node(10);
+		Node a2 = new Node(20);
+		Node a3 = new Node(30);
+		Node a4 = new Node(40);
+		Node a5 = new Node(50);
+		Node a6 = new Node(60);
+
+		Node b1 = new Node(70);
+		Node b2 = new Node(80);
+		Node b3 = new Node(90);
+		Node b4 = new Node(100);
+		Node b5 = new Node(110);
+		Node b6 = new Node(120);
+
+		a1.next = a2;
+		a2.next = a3;
+		a3.next = a4;
+		a4.next = a5;
+		a5.next = a6;
+
+		b1.next = b2;
+		b2.next = b3;
+		b3.next = b4;
+		b4.next = b5;
+		b5.next = b6;
+		b6.next = a3;
+
+		// logic
+		Node fp = a1;
+		Node sp = b1;
+
+		while (fp != sp) {
+
+			// fp = (fp == null) ? b1 : fp.next ;
+			if (fp == null) {
+				fp = b1;
+			} else {
+				fp = fp.next;
+			}
+
+			// sp = (sp == null ? a1 : sp.next);
+			if (sp == null) {
+				sp = a1;
+			} else {
+				sp = sp.next;
+			}
+
+		}
+
+		return fp.data;
+
+	}
+
+	public void createDummyList() {
+
+		Node a1 = new Node(10);
+		Node a2 = new Node(20);
+		Node a3 = new Node(30);
+		Node a4 = new Node(40);
+		Node a5 = new Node(50);
+		Node a6 = new Node(60);
+		Node a7 = new Node(70);
+		Node a8 = new Node(80);
+
+		a1.next = a2;
+		a2.next = a3;
+		a3.next = a4;
+		a4.next = a5;
+		a5.next = a6;
+		a6.next = a7;
+		a7.next = a8;
+		a8.next = a3;
+
+		head = a1;
+
+	}
+
+	public boolean detectRemoveLoop() {
+
+		// Cycle Detection
+		Node slow = head;
+		Node fast = head;
+
+		while (fast != null && fast.next != null) {
+
+			slow = slow.next;
+			fast = fast.next.next;
+
+			if (slow == fast) {
+				break;
+			}
+		}
+
+		if (slow == fast) {
+
+			// Cycle Removal Algo
+			Node loop = slow;
+			Node start = head;
+
+			while (loop.next != start.next) {
+
+				loop = loop.next;
+				start = start.next;
+
+			}
+
+			loop.next = null;
+
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public void kReverse(int k) throws Exception {
+
+		LinkedList prev = null;
+
+		while (size != 0) {
+
+			LinkedList curr = new LinkedList();
+
+			for (int i = 1; i <= k && size != 0; i++) {
+				curr.addFirst(this.removeFirst());
+			}
+
+			if (prev == null) {
+				prev = curr;
+			} else {
+				prev.tail.next = curr.head;
+				prev.tail = curr.tail;
+				prev.size += curr.size;
+			}
+
+		}
+
+		head = prev.head;
+		tail = prev.tail;
+		size = prev.size;
 	}
 
 }
