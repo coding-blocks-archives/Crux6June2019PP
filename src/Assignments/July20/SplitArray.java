@@ -1,6 +1,6 @@
-package may28;
+package Assignments.July20;
 
-public class split_array {
+public class SplitArray {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -14,13 +14,13 @@ public class split_array {
 
 		if (vidx == arr.length) {
 
-//			if (sum1 == sum2) {
+			// if (sum1 == sum2) {
 			System.out.println(ans1 + "and " + ans2);
 
 			return 1;
-//			}
+			// }
 
-//			return 0;
+			// return 0;
 		}
 
 		int cnt = 0;

@@ -1,8 +1,8 @@
-package may28;
+package Assignments.July20;
 
 import java.util.Arrays;
 
-public class chessBoard2 {
+public class ChessBoard2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
