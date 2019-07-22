@@ -47,6 +47,16 @@ public class LLClient {
 		list.kReverse(4);
 
 		list.display();
+		
+		list.createDummyList(); 
+		System.out.println(list.detectRemoveLoop());
+		
+		
+		
+		
+		
+		
+		
 
 	}
 }
