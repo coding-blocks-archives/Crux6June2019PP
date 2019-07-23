@@ -1,6 +1,7 @@
 package L20_July22;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -273,4 +274,120 @@ public class GenericTree {
 
 	}
 
+	public void levelOrder() {
+
+		LinkedList<Node> queue = new LinkedList<>();
+		queue.addLast(root);
+
+		while (!queue.isEmpty()) {
+
+			Node rn = queue.removeFirst();
+
+			System.out.print(rn.data + " ");
+
+			for (Node child : rn.children) {
+				queue.addLast(child);
+			}
+
+		}
+
+		System.out.println();
+
+	}
+
+	public void levelOrderLW1() {
+
+		LinkedList<Node> queue = new LinkedList<>();
+		queue.addLast(root);
+		queue.addLast(null);
+
+		while (!queue.isEmpty()) {
+
+			Node rn = queue.removeFirst();
+
+			if (rn == null) {
+
+				if (queue.size() == 0) {
+					break;
+				}
+
+				System.out.println();
+				queue.addLast(null);
+				continue;
+			}
+
+			System.out.print(rn.data + " ");
+
+			for (Node child : rn.children) {
+				queue.addLast(child);
+			}
+
+		}
+
+		System.out.println();
+
+	}
+
+	public void levelOrderLW2() {
+
+		LinkedList<Node> queue = new LinkedList<>();
+		LinkedList<Node> helper = new LinkedList<>();
+
+		queue.addLast(root);
+
+		while (!queue.isEmpty()) {
+
+			Node rn = queue.removeFirst();
+
+			System.out.print(rn.data + " ");
+
+			for (Node child : rn.children) {
+				helper.addLast(child);
+			}
+
+			if (queue.isEmpty()) {
+				System.out.println();
+				queue = helper;
+				helper = new LinkedList<>();
+			}
+
+		}
+
+	}
+
+	public void levelOrderZZ() {
+
+		LinkedList<Node> primaryS = new LinkedList<>();
+		LinkedList<Node> helperS = new LinkedList<>();
+
+		int count = 0;
+
+		primaryS.addFirst(root);
+
+		while (!primaryS.isEmpty()) {
+
+			Node rn = primaryS.removeFirst();
+
+			System.out.print(rn.data + " ");
+
+			if (count % 2 == 0) {
+				for (Node child : rn.children) {
+					helperS.addFirst(child);
+				}
+			} else {
+				for (int i = rn.children.size() - 1; i >= 0; i--) {
+					helperS.addFirst(rn.children.get(i));
+				}
+			}
+
+			if (primaryS.isEmpty()) {
+				count++;
+				System.out.println();
+				primaryS = helperS;
+				helperS = new LinkedList<>();
+			}
+
+		}
+
+	}
 }

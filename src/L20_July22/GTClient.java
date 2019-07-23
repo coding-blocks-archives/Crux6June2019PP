@@ -12,6 +12,7 @@ public class GTClient {
 	public static void main(String[] args) {
 
 		// 10 3 20 2 50 0 60 0 30 0 40 2 70 0 80 0
+		// 10 3 20 3 50 2 100 0 110 0 60 0 70 2 120 2 160 0 170 0 130 0 30 0 40 2 80 0 90 2 140 2 180 0 190 0 150 0
 		GenericTree gt = new GenericTree();
 		gt.display();
 
@@ -26,9 +27,13 @@ public class GTClient {
 		// gt.linearize();
 		// gt.display();
 		//
-//		gt.preorder();
-//
-//		gt.postorder();
+		// gt.preorder();
+		//
+		// gt.postorder();
+
+		// gt.levelOrder();
+		// gt.levelOrderLW2();
+		gt.levelOrderZZ();
 
 	}
 }
