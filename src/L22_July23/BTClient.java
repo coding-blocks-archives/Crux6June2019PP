@@ -1,5 +1,7 @@
 package L22_July23;
 
+import java.util.PriorityQueue;
+
 /**
  * @author Garima Chhikara
  * @email garima.chhikara@codingblocks.com
@@ -19,6 +21,19 @@ public class BTClient {
 		System.out.println(bt.max());
 		System.out.println(bt.find(500));
 		System.out.println(bt.ht());
+
+		System.out.println(bt.isBalanced());
+		System.out.println(bt.isBalanced2());
+
+		// 10 true 30 true 160 false false false true 20 true 40 false false true 50
+		// false false
+		// BinaryTree other = new BinaryTree();
+		// other.display();
+
+		// System.out.println(bt.flipEquivalent(other));
+
+		bt.preorder();
+		bt.preorderI();
 
 	}
 }

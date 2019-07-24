@@ -1,6 +1,7 @@
 package L22_July23;
 
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * @author Garima Chhikara
@@ -165,21 +166,236 @@ public class BinaryTree {
 
 	}
 
-	public int diameter() {
-		return diameter(root);
+	int ans = 0;
+
+	public int diameter1() {
+		diameter1(root);
+
+		return ans;
 	}
 
-	private int diameter(Node node) {
+	private int diameter1(Node node) {
+
+		if (node == null) {
+			return -1;
+		}
+
+		int lh = diameter1(node.left);
+		int rh = diameter1(node.right);
+
+		int presentNodeDiameterRootNode = lh + rh + 2;
+		if (presentNodeDiameterRootNode > ans) {
+			ans = presentNodeDiameterRootNode;
+		}
+
+		return Math.max(lh, rh) + 1;
+
+	}
+
+	public int diameter2() {
+		return diameter2(root);
+	}
+
+	private int diameter2(Node node) {
 
 		if (node == null) {
 			return 0;
 		}
 
-		int ld = diameter(node.left);
-		int rd = diameter(node.right);
+		int ld = diameter2(node.left);
+		int rd = diameter2(node.right);
 		int sp = ht(node.left) + ht(node.right) + 2;
 
 		return Math.max(sp, Math.max(ld, rd));
+
+	}
+
+	private class DiaPair {
+		int d = 0;
+		int h = -1;
+	}
+
+	public int diameter3() {
+		return diameter3(root).d;
+	}
+
+	private DiaPair diameter3(Node node) {
+
+		if (node == null) {
+			return new DiaPair();
+		}
+
+		DiaPair ldp = diameter3(node.left);
+		DiaPair rdp = diameter3(node.right);
+
+		DiaPair sdp = new DiaPair();
+
+		int ld = ldp.d;
+		int rd = rdp.d;
+		int sp = ldp.h + rdp.h + 2;
+
+		sdp.d = Math.max(sp, Math.max(ld, rd));
+		sdp.h = Math.max(ldp.h, rdp.h) + 1;
+
+		return sdp;
+
+	}
+
+	public boolean isBalanced() {
+		return isBalanced(root);
+	}
+
+	private boolean isBalanced(Node node) {
+
+		if (node == null) {
+			return true;
+		}
+
+		boolean lb = isBalanced(node.left);
+		boolean rb = isBalanced(node.right);
+
+		int bf = ht(node.left) - ht(node.right);
+
+		if ((bf == -1 || bf == 0 || bf == 1) && lb && rb) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	private class BalPair {
+		boolean b = true;
+		int h = -1;
+	}
+
+	public boolean isBalanced2() {
+		return isBalanced2(root).b;
+	}
+
+	private BalPair isBalanced2(Node node) {
+
+		if (node == null) {
+			return new BalPair();
+		}
+
+		BalPair lbp = isBalanced2(node.left);
+		BalPair rbp = isBalanced2(node.right);
+
+		BalPair sbp = new BalPair();
+
+		boolean lb = lbp.b;
+		boolean rb = rbp.b;
+
+		int bf = lbp.h - rbp.h;
+
+		if ((bf == -1 || bf == 0 || bf == 1) && lb && rb) {
+			sbp.b = true;
+		} else {
+			sbp.b = false;
+		}
+
+		sbp.h = Math.max(lbp.h, rbp.h) + 1;
+
+		return sbp;
+
+	}
+
+	public boolean flipEquivalent(BinaryTree other) {
+		return flipEquivalent(this.root, other.root);
+	}
+
+	private boolean flipEquivalent(Node n1, Node n2) {
+
+		if (n1 == null && n2 == null) {
+			return true;
+		}
+
+		if (n1 == null || n2 == null) {
+			return false;
+		}
+
+		if (n1.data != n2.data) {
+			return false;
+		}
+
+		boolean o1 = flipEquivalent(n1.left, n2.left);
+		boolean o2 = flipEquivalent(n1.right, n2.right);
+
+		boolean o3 = flipEquivalent(n1.left, n2.right);
+		boolean o4 = flipEquivalent(n1.right, n2.left);
+
+		return (o1 && o2) || (o3 && o4);
+
+	}
+
+	// NLR : preorder
+	// NRL : postorder rev
+	// LNR : inorder
+	// RNL : inorder rev
+	// LRN : postorder
+	// RLN : preoder rev
+	public void preorder() {
+		preorder(root);
+		System.out.println();
+	}
+
+	private void preorder(Node node) {
+
+		if (node == null) {
+			return;
+		}
+
+		System.out.print(node.data + " ");
+		preorder(node.left);
+		preorder(node.right);
+	}
+
+	private class Pair {
+		Node n;
+		boolean sd;
+		boolean ld;
+		boolean rd;
+	}
+
+	public void preorderI() {
+
+		Stack<Pair> stack = new Stack<>();
+
+		Pair sp = new Pair();
+		sp.n = root;
+		stack.push(sp);
+
+		while (!stack.isEmpty()) {
+
+			Pair tp = stack.peek();
+
+			if (tp.sd == false) {
+				System.out.print(tp.n.data + " ");
+				tp.sd = true;
+			} else if (tp.ld == false) {
+				Pair np = new Pair();
+				np.n = tp.n.left;
+
+				if (np.n != null)
+					stack.push(np);
+
+				tp.ld = true;
+			} else if (tp.rd == false) {
+				Pair np = new Pair();
+				np.n = tp.n.right;
+
+				if (np.n != null)
+					stack.push(np);
+
+				tp.rd = true;
+			} else {
+				stack.pop();
+			}
+
+		}
+
+		System.out.println();
 
 	}
 
