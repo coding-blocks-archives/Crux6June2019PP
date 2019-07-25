@@ -1,7 +1,5 @@
 package L22_July23;
 
-import java.util.PriorityQueue;
-
 /**
  * @author Garima Chhikara
  * @email garima.chhikara@codingblocks.com
@@ -11,10 +9,16 @@ import java.util.PriorityQueue;
 
 public class BTClient {
 
-	// 10 true 20 true 40 false false true 50 false false true 30 false true 60 false false
+	// 10 true 20 true 40 false false true 50 false false true 30 false true 60
+	// false false
+
+	// 100 true 2 true 4 false false true -5 false false true -3 true -4 false false
+	// true 5 true 6 false false true 7 false false
 	public static void main(String[] args) {
 
-		BinaryTree bt = new BinaryTree();
+		int[] pre = { 10, 20, 70, 30, 40, 50, 60 };
+		int[] in = { 20, 70, 10, 40, 50, 30, 60 };
+		BinaryTree bt = new BinaryTree(pre, in);
 		bt.display();
 
 		System.out.println(bt.size());
@@ -34,6 +38,8 @@ public class BTClient {
 
 		bt.preorder();
 		bt.preorderI();
+
+		System.out.println(bt.maxSubtreeSum2());
 
 	}
 }

@@ -62,6 +62,36 @@ public class BinaryTree {
 
 	}
 
+	public BinaryTree(int[] pre, int[] in) {
+		root = construct(pre, 0, pre.length - 1, in, 0, in.length - 1);
+	}
+
+	private Node construct(int[] pre, int plo, int phi, int[] in, int ilo, int ihi) {
+
+		if (plo > phi || ilo > ihi) {
+			return null;
+		}
+
+		Node nn = new Node();
+		nn.data = pre[plo];
+
+		int si = -1;
+		for (int i = ilo; i <= ihi; i++) {
+			if (pre[plo] == in[i]) {
+				si = i;
+				break;
+			}
+		}
+
+		int nel = si - ilo;
+
+		nn.left = construct(pre, plo + 1, plo + nel, in, ilo, si - 1);
+		nn.right = construct(pre, plo + nel + 1, phi, in, si + 1, ihi);
+
+		return nn;
+
+	}
+
 	public void display() {
 		System.out.println("------------------------");
 		display(root);
@@ -396,6 +426,60 @@ public class BinaryTree {
 		}
 
 		System.out.println();
+
+	}
+
+	int maxsum = Integer.MIN_VALUE;
+
+	public int maxSubtreeSum() {
+		maxSubtreeSum(root);
+
+		return maxsum;
+	}
+
+	private int maxSubtreeSum(Node node) {
+
+		if (node == null) {
+			return 0;
+		}
+
+		int ls = maxSubtreeSum(node.left);
+		int rs = maxSubtreeSum(node.right);
+
+		int ans = ls + rs + node.data;
+
+		if (ans > maxsum)
+			maxsum = ans;
+
+		return ans;
+
+	}
+
+	private class SubtreePair {
+		int entireSum = 0;
+		int maxsum = Integer.MIN_VALUE;
+	}
+
+	public int maxSubtreeSum2() {
+		return maxSubtreeSum2(root).maxsum;
+	}
+
+	private SubtreePair maxSubtreeSum2(Node node) {
+
+		if (node == null) {
+			return new SubtreePair();
+		}
+
+		SubtreePair lsp = maxSubtreeSum2(node.left);
+		SubtreePair rsp = maxSubtreeSum2(node.right);
+
+		SubtreePair ssp = new SubtreePair();
+
+		ssp.entireSum = lsp.entireSum + rsp.entireSum + node.data;
+
+		ssp.maxsum = Math.max(ssp.entireSum, Math.max(lsp.maxsum, rsp.maxsum));
+
+		return ssp;
 
 	}
 
