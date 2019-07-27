@@ -262,4 +262,91 @@ public class BST {
 		return node;
 	}
 
+	public void remove(int item) {
+		remove(root, null, item);
+	}
+
+	private void remove(Node node, Node parent, int item) {
+
+		if (node == null) {
+			return;
+		}
+
+		if (item < node.data) {
+			remove(node.left, node, item);
+		} else if (item > node.data) {
+			remove(node.right, node, item);
+		} else {
+
+			if (node.left == null && node.right == null) {
+
+				if (node.data <= parent.data) {
+					parent.left = null;
+				} else {
+					parent.right = null;
+				}
+			} else if (node.left == null && node.right != null) {
+
+				if (node.data <= parent.data) {
+					parent.left = node.right;
+				} else {
+					parent.right = node.right;
+				}
+
+			} else if (node.left != null && node.right == null) {
+
+				if (node.data <= parent.data) {
+					parent.left = node.left;
+				} else {
+					parent.right = node.left;
+				}
+
+			} else {
+
+				int temp = max(node.left);
+				node.data = temp;
+				remove(node.left, node, temp);
+
+			}
+
+		}
+
+	}
+
+	public void removeReturn(int item) {
+		root = removeReturn(root, item);
+	}
+
+	private Node removeReturn(Node node, int item) {
+
+		if (node == null) {
+			return null;
+		}
+
+		if (node.data == item) {
+
+			if (node.left == null) {
+				return node.right;
+			} else if (node.right == null) {
+				return node.left;
+			} else {
+
+				int m = max(node.left);
+				node.left = removeReturn(node.left, m);
+				node.data = m;
+				return node;
+			}
+
+		}
+
+		else if (item < node.data) {
+			node.left = removeReturn(node.left, item);
+		} else {
+			node.right = removeReturn(node.right, item);
+		}
+
+		return node;
+
+	}
+
 }

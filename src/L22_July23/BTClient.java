@@ -16,8 +16,8 @@ public class BTClient {
 	// true 5 true 6 false false true 7 false false
 	public static void main(String[] args) {
 
-		int[] pre = { 10, 20, 70, 30, 40, 50, 60 };
-		int[] in = { 20, 70, 10, 40, 50, 30, 60 };
+		int[] pre = { 10, 500, 30, 60, 55, 70, 20, 150, 300, 250, 400, 500 };
+		int[] in = { 30, 500, 55, 60, 70, 10, 150, 20, 250, 300, 400, 500 };
 		BinaryTree bt = new BinaryTree(pre, in);
 		bt.display();
 
@@ -40,6 +40,8 @@ public class BTClient {
 		bt.preorderI();
 
 		System.out.println(bt.maxSubtreeSum2());
+		
+		System.out.println(bt.isTreeBST());
 
 	}
 }

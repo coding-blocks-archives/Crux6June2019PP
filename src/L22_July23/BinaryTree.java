@@ -483,4 +483,58 @@ public class BinaryTree {
 
 	}
 
+	private class BSTPair {
+		boolean isBST = true;
+		int max = Integer.MIN_VALUE;
+		int min = Integer.MAX_VALUE;
+
+		Node largestBSTRoot;
+		int size;
+	}
+
+	public boolean isTreeBST() {
+		BSTPair res = isTreeBST(root);
+
+		System.out.println(res.largestBSTRoot.data);
+		System.out.println(res.size);
+		
+		return res.isBST ;
+	}
+
+	private BSTPair isTreeBST(Node node) {
+
+		if (node == null) {
+			return new BSTPair();
+		}
+
+		BSTPair lbp = isTreeBST(node.left);
+		BSTPair rbp = isTreeBST(node.right);
+
+		BSTPair sbp = new BSTPair();
+
+		if (lbp.isBST && rbp.isBST && node.data > lbp.max && node.data < rbp.min) {
+			sbp.isBST = true;
+
+			sbp.largestBSTRoot = node;
+			sbp.size = lbp.size + rbp.size + 1;
+		} else {
+			sbp.isBST = false;
+
+			if (lbp.size >= rbp.size) {
+				sbp.largestBSTRoot = lbp.largestBSTRoot;
+				sbp.size = lbp.size;
+			} else {
+				sbp.largestBSTRoot = rbp.largestBSTRoot;
+				sbp.size = rbp.size;
+			}
+
+		}
+
+		sbp.max = Math.max(node.data, Math.max(lbp.max, rbp.max));
+		sbp.min = Math.min(node.data, Math.min(lbp.min, rbp.min));
+
+		return sbp;
+
+	}
+
 }

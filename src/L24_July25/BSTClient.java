@@ -22,13 +22,18 @@ public class BSTClient {
 
 		// bst.printInRange(15, 55);
 
-//		bst.replaceWithSumLarger();
+		// bst.replaceWithSumLarger();
 
 		bst.display();
-		
+
 		bst.add(32);
-		bst.add(35); 
-		bst.add(29) ;
+		bst.add(35);
+		bst.add(29);
+		bst.display();
+
+		bst.removeReturn(20);
+		bst.display();
+		bst.removeReturn(30);
 		bst.display();
 	}
 }
