@@ -1,5 +1,7 @@
 package L25_July26.GenericsFxn;
 
+import java.util.Comparator;
+
 /**
  * @author Garima Chhikara
  * @email garima.chhikara@codingblocks.com
@@ -11,7 +13,9 @@ public class Demo {
 
 	public static void main(String[] args) {
 
-		Integer[] arr = { 10, 20, 30, 40, 50 };
+		Integer[] arr = { 100, 8, 30, 40, 50 };
+		bubbleSort(arr);
+		
 		display(arr);
 
 		String[] sarr = { "hello", "hi", "bye" };
@@ -25,8 +29,13 @@ public class Demo {
 		carr[3] = new Car(80, 7, "Grey");
 		carr[4] = new Car(20, 3, "Brown");
 
-		bubbleSort(carr);
+		bubbleSort(carr, new CarSpeedComparator());
+		display(carr);
 
+		bubbleSort(carr, new CarPriceComparator());
+		display(carr);
+
+		bubbleSort(carr, new CarColorComparator());
 		display(carr);
 
 	}
@@ -51,10 +60,39 @@ public class Demo {
 
 	}
 
+	public static <T> void bubbleSort(T[] arr, Comparator<T> comp) {
+
+		int n = arr.length;
+
+		for (int count = 0; count <= n - 2; count++) {
+
+			for (int j = 0; j <= n - count - 2; j++) {
+
+				if (comp.compare(arr[j], arr[j + 1]) > 0) {
+
+					T temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+			}
+
+		}
+
+	}
+
 	public static <T> void display(T[] arr) {
 		for (T val : arr) {
 			System.out.println(val);
 		}
+		System.out.println("-------------");
 	}
 
 }
+
+
+
+
+
+
+
+
