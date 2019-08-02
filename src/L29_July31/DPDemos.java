@@ -1,6 +1,9 @@
 package L29_July31;
 
+import java.util.AbstractMap;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Garima Chhikara
@@ -55,8 +58,35 @@ public class DPDemos {
 			Arrays.fill(storage[i], -1);
 		}
 
-		System.out.println(MCMTD(arr, 0, arr.length - 1, storage));
-		System.out.println(MCMBU(arr));
+		// System.out.println(MCMTD(arr, 0, arr.length - 1, storage));
+		// System.out.println(MCMBU(arr));
+		//
+		// int[] prices = new int[1000];
+		// for (int i = 0; i < prices.length; i++) {
+		// prices[i] = i + 1;
+		// }
+
+		int[] prices = { 2, 3, 5, 1, 4 };
+
+		// System.out.println(WineProblem(prices, 0, prices.length - 1, 1));
+		// System.out.println(WineProblemTD(prices, 0, prices.length - 1, new
+		// int[prices.length][prices.length]));
+		// System.out.println(WineProblemBU(prices));
+
+		String src = "baaababc";
+		String pat = "c**************************ba********************************c";
+
+		// System.out.println(WildCardMatching(src, pat));
+		// System.out.println(WildCardMatchingTD(src, pat, new int[src.length() +
+		// 1][pat.length() + 1]));
+		// System.out.println(WildCardMatchingBU(src, pat));
+
+		int[] wt = { 1, 3, 4, 5 };
+		int[] p = { 1, 4, 5, 7 };
+
+		int cap = 7;
+
+		System.out.println(KnapsackTD(wt, p, 0, cap, new int[wt.length][cap + 1]));
 
 		long end = System.currentTimeMillis();
 
@@ -514,6 +544,253 @@ public class DPDemos {
 
 		return strg[0][n - 1];
 
+	}
+
+	// T : O(2^n) S : Rec extra space
+	public static int WineProblem(int[] arr, int si, int ei, int yr) {
+
+		if (si == ei) {
+			return arr[si] * yr;
+		}
+
+		int start = WineProblem(arr, si + 1, ei, yr + 1) + arr[si] * yr;
+		int end = WineProblem(arr, si, ei - 1, yr + 1) + arr[ei] * yr;
+
+		int ans = Math.max(start, end);
+
+		return ans;
+	}
+
+	// T : O(n*n) // S : Rec extra space + Array
+	public static int WineProblemTD(int[] arr, int si, int ei, int[][] strg) {
+
+		int yr = arr.length - ei + si;
+
+		if (si == ei) {
+			return arr[si] * yr;
+		}
+
+		if (strg[si][ei] != 0) {
+			return strg[si][ei];
+		}
+
+		int start = WineProblemTD(arr, si + 1, ei, strg) + arr[si] * yr;
+		int end = WineProblemTD(arr, si, ei - 1, strg) + arr[ei] * yr;
+
+		int ans = Math.max(start, end);
+
+		strg[si][ei] = ans;
+
+		return ans;
+	}
+
+	public static int WineProblemBU(int[] arr) {
+
+		int n = arr.length;
+		int[][] strg = new int[n][n];
+
+		for (int slide = 0; slide <= n - 1; slide++) {
+
+			for (int si = 0; si <= n - slide - 1; si++) {
+
+				int ei = si + slide;
+
+				int yr = arr.length - ei + si;
+
+				if (si == ei) {
+					strg[si][ei] = arr[si] * yr;
+					continue;
+				}
+
+				// copy
+				int start = strg[si + 1][ei] + arr[si] * yr;
+				int end = strg[si][ei - 1] + arr[ei] * yr;
+
+				int ans = Math.max(start, end);
+
+				strg[si][ei] = ans;
+				//
+
+			}
+
+		}
+
+		for (int i = 0; i < strg.length; i++) {
+			for (int j = 0; j < strg[i].length; j++) {
+				System.out.print(strg[i][j] + "\t");
+			}
+			System.out.println();
+		}
+
+		return strg[0][n - 1];
+
+	}
+
+	public static boolean WildCardMatching(String src, String pat) {
+
+		if (src.length() == 0 && pat.length() == 0) {
+			return true;
+		}
+
+		if (src.length() != 0 && pat.length() == 0) {
+			return false;
+		}
+
+		if (src.length() == 0 && pat.length() != 0) {
+
+			for (int i = 0; i < pat.length(); i++) {
+				if (pat.charAt(i) != '*') {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		char chs = src.charAt(0);
+		char chp = pat.charAt(0);
+
+		String ros = src.substring(1);
+		String rop = pat.substring(1);
+
+		boolean res;
+		if (chs == chp || chp == '?') {
+			res = WildCardMatching(ros, rop);
+		} else if (chp == '*') {
+
+			boolean blank = WildCardMatching(src, rop);
+			boolean multiple = WildCardMatching(ros, pat);
+
+			res = blank || multiple;
+
+		} else {
+			res = false;
+		}
+
+		return res;
+	}
+
+	public static boolean WildCardMatchingTD(String src, String pat, int[][] strg) {
+
+		if (src.length() == 0 && pat.length() == 0) {
+			return true;
+		}
+
+		if (src.length() != 0 && pat.length() == 0) {
+			return false;
+		}
+
+		if (src.length() == 0 && pat.length() != 0) {
+
+			for (int i = 0; i < pat.length(); i++) {
+				if (pat.charAt(i) != '*') {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		if (strg[src.length()][pat.length()] != 0) {
+			return (strg[src.length()][pat.length()] == 2) ? true : false;
+		}
+
+		char chs = src.charAt(0);
+		char chp = pat.charAt(0);
+
+		String ros = src.substring(1);
+		String rop = pat.substring(1);
+
+		boolean res;
+		if (chs == chp || chp == '?') {
+			res = WildCardMatchingTD(ros, rop, strg);
+		} else if (chp == '*') {
+
+			boolean blank = WildCardMatchingTD(src, rop, strg);
+			boolean multiple = WildCardMatchingTD(ros, pat, strg);
+
+			res = blank || multiple;
+
+		} else {
+			res = false;
+		}
+
+		strg[src.length()][pat.length()] = (res ? 2 : 1);
+
+		return res;
+	}
+
+	public static boolean WildCardMatchingBU(String src, String pat) {
+
+		boolean[][] strg = new boolean[src.length() + 1][pat.length() + 1];
+
+		strg[src.length()][pat.length()] = true;
+
+		for (int row = src.length(); row >= 0; row--) {
+
+			for (int col = pat.length() - 1; col >= 0; col--) {
+
+				// last row
+				if (row == src.length()) {
+
+					if (pat.charAt(col) == '*') {
+						strg[row][col] = strg[row][col + 1];
+					} else {
+						strg[row][col] = false;
+					}
+
+					continue;
+				}
+
+				// copy
+				char chs = src.charAt(row);
+				char chp = pat.charAt(col);
+
+				boolean res;
+				if (chs == chp || chp == '?') {
+					res = strg[row + 1][col + 1];
+				} else if (chp == '*') {
+
+					boolean blank = strg[row][col + 1];
+					boolean multiple = strg[row + 1][col];
+
+					res = blank || multiple;
+
+				} else {
+					res = false;
+				}
+
+				strg[row][col] = res;
+
+			}
+
+		}
+
+		return strg[0][0];
+
+	}
+
+	public static int KnapsackTD(int[] wt, int[] price, int vidx, int cap, int[][] strg) {
+
+		if (vidx == wt.length) {
+			return 0;
+		}
+
+		if (strg[vidx][cap] != 0) {
+			return strg[vidx][cap];
+		}
+
+		int exclude = KnapsackTD(wt, price, vidx + 1, cap, strg);
+
+		int include = 0;
+		if (cap >= wt[vidx])
+			include = KnapsackTD(wt, price, vidx + 1, cap - wt[vidx], strg) + price[vidx];
+
+		int ans = Math.max(exclude, include);
+
+		strg[vidx][cap] = ans;
+
+		return ans;
 	}
 
 }
