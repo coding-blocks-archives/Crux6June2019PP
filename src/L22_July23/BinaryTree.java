@@ -542,7 +542,7 @@ public class BinaryTree {
 
 	}
 
-	private class VOPair implements Comparable<VOPair>{
+	private class VOPair implements Comparable<VOPair> {
 		int val;
 		int hlevel;
 		int vlevel;
@@ -560,7 +560,7 @@ public class BinaryTree {
 
 		@Override
 		public int compareTo(VOPair o) {
-			return this.hlevel - o.hlevel ;
+			return this.hlevel - o.hlevel;
 		}
 	}
 
@@ -570,16 +570,16 @@ public class BinaryTree {
 
 		verticalDisplay(root, map, 0, 0);
 
-		ArrayList<Integer> allkeys = new ArrayList<>(map.keySet()) ;
+		ArrayList<Integer> allkeys = new ArrayList<>(map.keySet());
 		Collections.sort(allkeys);
-		
-		for(int key : allkeys) {
-			ArrayList<VOPair> list = map.get(key) ;
+
+		for (int key : allkeys) {
+			ArrayList<VOPair> list = map.get(key);
 			Collections.sort(list);
-			
+
 			System.out.println(key + " -> " + list);
 		}
-		
+
 		System.out.println(map);
 	}
 
@@ -601,6 +601,4 @@ public class BinaryTree {
 
 	}
 
-	
-	
 }

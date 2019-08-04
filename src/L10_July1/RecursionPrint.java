@@ -16,7 +16,7 @@ public class RecursionPrint {
 		// printSS("abc", "");
 		// printKPC("145", "");
 		// permutation2("abc", "");
-		// validParenthesis(3, "", 0, 0);
+		 validParenthesis(10, "", 0, 0);
 		// permutation("abac", "");
 		// permutationNoDuplicates("abac", "");
 
@@ -25,8 +25,8 @@ public class RecursionPrint {
 
 		// lexicoCounting(0, 1000);
 		// palindromePartition("abbcbc", "");
-
-		upperLower("A1bC", "");
+//
+//		upperLower("A1bC", "");
 	}
 
 	public static void printSS(String ques, String ans) {
@@ -94,10 +94,12 @@ public class RecursionPrint {
 
 	}
 
+	static int c = 1 ;
+	
 	public static void validParenthesis(int n, String ans, int open, int close) {
 
 		if (open == n && close == n) {
-			System.out.println(ans);
+			System.out.println(c++ + " "  +ans);
 			return;
 		}
 

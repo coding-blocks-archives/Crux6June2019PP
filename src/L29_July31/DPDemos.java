@@ -86,7 +86,30 @@ public class DPDemos {
 
 		int cap = 7;
 
-		System.out.println(KnapsackTD(wt, p, 0, cap, new int[wt.length][cap + 1]));
+		// System.out.println(KnapsackTD(wt, p, 0, cap, new int[wt.length][cap + 1]));
+		// System.out.println(KnapsackBU(wt, p, cap));
+
+		int[] a = { 40, 60, 20, 30, 45, 12, 26 };
+
+		// System.out.println(MixturesTD(a, 0, a.length - 1, new
+		// int[a.length][a.length]));
+		// System.out.println(MixturesBU(a));
+
+		int[] price = new int[1000];
+
+		for (int i = 0; i < price.length; i++) {
+			price[i] = i + 1;
+		}
+		// System.out.println(rodCut(price, price.length - 1, new int[price.length]));
+		// System.out.println(rodCutBU(price));
+
+		String s = "ababbbabbababadgjhvgsjdhcsdgbcyusdgchjsdgcuywegufwehu";
+		// System.out.println(palindromicCuts(s, 0, s.length() - 1, new
+		// int[s.length()][s.length()]));
+		// System.out.println(palindromicCutsBU(s));
+
+		for (int i = 0; i <= 10; i++)
+			System.out.println(i + " : " + noOfBSTS(i));
 
 		long end = System.currentTimeMillis();
 
@@ -793,4 +816,286 @@ public class DPDemos {
 		return ans;
 	}
 
+	public static int KnapsackBU(int[] wt, int[] price, int cap) {
+
+		int[][] strg = new int[wt.length + 1][cap + 1];
+
+		for (int row = strg.length - 2; row >= 0; row--) {
+
+			for (int col = 1; col < strg[0].length; col++) {
+
+				// bottom cell
+				int exclude = strg[row + 1][col];
+
+				int include = 0;
+				if (col >= wt[row])
+					include = strg[row + 1][col - wt[row]] + price[row];
+
+				int ans = Math.max(exclude, include);
+
+				strg[row][col] = ans;
+
+			}
+
+		}
+
+		return strg[0][cap];
+
+	}
+
+	public static int MixturesTD(int[] arr, int si, int ei, int[][] strg) {
+
+		if (si == ei) {
+			return 0;
+		}
+
+		if (strg[si][ei] != 0) {
+			return strg[si][ei];
+		}
+
+		int min = Integer.MAX_VALUE;
+
+		for (int k = si; k <= ei - 1; k++) {
+
+			int fp = MixturesTD(arr, si, k, strg);
+			int sp = MixturesTD(arr, k + 1, ei, strg);
+
+			int sw = color(arr, si, k) * color(arr, k + 1, ei);
+
+			int total = fp + sp + sw;
+
+			if (total < min) {
+				min = total;
+			}
+		}
+
+		strg[si][ei] = min;
+
+		return min;
+
+	}
+
+	public static int color(int[] arr, int si, int ei) {
+
+		int sum = 0;
+		for (int i = si; i <= ei; i++) {
+			sum += arr[i];
+		}
+
+		return sum % 100;
+	}
+
+	public static int MixturesBU(int[] arr) {
+
+		int n = arr.length;
+		int[][] strg = new int[n][n];
+
+		for (int slide = 1; slide <= n - 1; slide++) {
+
+			for (int si = 0; si <= n - slide - 1; si++) {
+
+				int ei = si + slide;
+
+				// copy
+				int min = Integer.MAX_VALUE;
+
+				for (int k = si; k <= ei - 1; k++) {
+
+					int fp = strg[si][k];
+					int sp = strg[k + 1][ei];
+
+					int sw = color(arr, si, k) * color(arr, k + 1, ei);
+
+					int total = fp + sp + sw;
+
+					if (total < min) {
+						min = total;
+					}
+				}
+
+				strg[si][ei] = min;
+
+			}
+
+		}
+
+		return strg[0][n - 1];
+
+	}
+
+	public static int rodCut(int[] arr, int len, int[] strg) {
+
+		if (strg[len] != 0) {
+			return strg[len];
+		}
+
+		int max = arr[len];
+
+		int left = 1;
+		int right = len - 1;
+
+		while (left <= right) {
+
+			int fp = rodCut(arr, left, strg);
+			int sp = rodCut(arr, right, strg);
+
+			int total = fp + sp;
+
+			if (total > max) {
+				max = total;
+			}
+
+			left++;
+			right--;
+
+		}
+
+		strg[len] = max;
+
+		return max;
+
+	}
+
+	public static int rodCutBU(int[] arr) {
+
+		int[] strg = new int[arr.length];
+
+		for (int len = 1; len < strg.length; len++) {
+
+			int max = arr[len];
+
+			int left = 1;
+			int right = len - 1;
+
+			while (left <= right) {
+
+				int fp = strg[left];
+				int sp = strg[right];
+
+				int total = fp + sp;
+
+				if (total > max) {
+					max = total;
+				}
+
+				left++;
+				right--;
+
+			}
+
+			strg[len] = max;
+
+		}
+
+		return strg[strg.length - 1];
+
+	}
+
+	public static int palindromicCuts(String str, int si, int ei, int[][] strg) {
+
+		if (isPalindrome(str, si, ei)) {
+			return 0;
+		}
+
+		if (strg[si][ei] != 0) {
+			return strg[si][ei];
+		}
+
+		int min = Integer.MAX_VALUE;
+
+		for (int k = si; k <= ei - 1; k++) {
+
+			int fp = palindromicCuts(str, si, k, strg);
+			int sp = palindromicCuts(str, k + 1, ei, strg);
+
+			int total = fp + sp + 1;
+
+			if (total < min) {
+				min = total;
+			}
+		}
+
+		strg[si][ei] = min;
+
+		return min;
+	}
+
+	public static boolean isPalindrome(String str, int si, int ei) {
+
+		int i = si;
+		int j = ei;
+
+		while (i < j) {
+
+			if (str.charAt(i) != str.charAt(j)) {
+				return false;
+			}
+			i++;
+			j--;
+		}
+
+		return true;
+
+	}
+
+	public static int palindromicCutsBU(String str) {
+
+		int n = str.length();
+		int[][] strg = new int[n][n];
+
+		for (int slide = 0; slide <= n - 1; slide++) {
+
+			for (int si = 0; si <= n - slide - 1; si++) {
+
+				int ei = si + slide;
+
+				// base case
+				if (isPalindrome(str, si, ei)) {
+					strg[si][ei] = 0;
+					continue;
+				}
+
+				// copy
+				int min = Integer.MAX_VALUE;
+
+				for (int k = si; k <= ei - 1; k++) {
+
+					int fp = strg[si][k];
+					int sp = strg[k + 1][ei];
+
+					int total = fp + sp + 1;
+
+					if (total < min) {
+						min = total;
+					}
+				}
+
+				strg[si][ei] = min;
+				//
+			}
+		}
+
+		return strg[0][n - 1];
+	}
+
+	public static int noOfBSTS(int n) {
+
+		if (n <= 1) {
+			return 1;
+		}
+
+		int sum = 0;
+
+		for (int i = 1; i <= n; i++) {
+
+			int left = noOfBSTS(i - 1);
+			int right = noOfBSTS(n - i);
+
+			int total = left * right;
+
+			sum += total;
+		}
+
+		return sum;
+	}
 }
