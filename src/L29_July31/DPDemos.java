@@ -1,9 +1,6 @@
 package L29_July31;
 
-import java.util.AbstractMap;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Garima Chhikara
@@ -303,6 +300,8 @@ public class DPDemos {
 
 	}
 
+	// Q : https://www.geeksforgeeks.org/longest-common-subsequence-dp-4/
+
 	// T : O(2^(m+n)) S : Rec extra space
 	public static int LCS(String s1, String s2) {
 
@@ -392,6 +391,8 @@ public class DPDemos {
 		return strg[0][0];
 
 	}
+
+	// Q : https://www.geeksforgeeks.org/edit-distance-dp-5/
 
 	// T : O(3^(m+n)) S : Rec extra space
 	public static int EditDistance(String s1, String s2) {
@@ -496,6 +497,8 @@ public class DPDemos {
 
 	}
 
+	// Q : https://www.geeksforgeeks.org/matrix-chain-multiplication-dp-8/
+
 	public static int MCMTD(int[] arr, int si, int ei, int[][] strg) {
 
 		if (si + 1 == ei) {
@@ -568,6 +571,9 @@ public class DPDemos {
 		return strg[0][n - 1];
 
 	}
+
+	// Q : https://www.hackerearth.com/practice/notes/dynamic-programming-i-1/
+	// Q : https://www.geeksforgeeks.org/maximum-profit-sale-wines/
 
 	// T : O(2^n) S : Rec extra space
 	public static int WineProblem(int[] arr, int si, int ei, int yr) {
@@ -648,6 +654,8 @@ public class DPDemos {
 		return strg[0][n - 1];
 
 	}
+
+	// Q : https://www.geeksforgeeks.org/wildcard-pattern-matching/
 
 	public static boolean WildCardMatching(String src, String pat) {
 
@@ -793,6 +801,9 @@ public class DPDemos {
 
 	}
 
+	// Q : 0-1 Knapsack : https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/
+	// Q : Fractional Knapsack : https://www.geeksforgeeks.org/fractional-knapsack-problem/
+
 	public static int KnapsackTD(int[] wt, int[] price, int vidx, int cap, int[][] strg) {
 
 		if (vidx == wt.length) {
@@ -842,6 +853,8 @@ public class DPDemos {
 		return strg[0][cap];
 
 	}
+
+	// Q : https://www.spoj.com/problems/MIXTURES/
 
 	public static int MixturesTD(int[] arr, int si, int ei, int[][] strg) {
 
@@ -923,6 +936,8 @@ public class DPDemos {
 
 	}
 
+	// Q : https://www.geeksforgeeks.org/cutting-a-rod-dp-13/
+
 	public static int rodCut(int[] arr, int len, int[] strg) {
 
 		if (strg[len] != 0) {
@@ -990,6 +1005,8 @@ public class DPDemos {
 		return strg[strg.length - 1];
 
 	}
+
+	// Q : https://leetcode.com/problems/palindrome-partitioning-ii/
 
 	public static int palindromicCuts(String str, int si, int ei, int[][] strg) {
 
@@ -1077,6 +1094,9 @@ public class DPDemos {
 
 		return strg[0][n - 1];
 	}
+
+	// Q : https://leetcode.com/problems/unique-binary-search-trees/
+	// Significance catalan no : https://en.wikipedia.org/wiki/Catalan_number
 
 	public static int noOfBSTS(int n) {
 
